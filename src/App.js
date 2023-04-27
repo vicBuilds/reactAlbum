@@ -1,29 +1,46 @@
-import { Routes, Route } from "react-router-dom";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
-import Home from "./components/home/home";
-import PageNotFound from "./components/pageNotFound404/pageNotFound";
-import MovieDetail from "./components/movieDetail/movieDetail";
+import { GetAllPost } from "./api/index";
+import Loader from "./components/Loader/Loader";
 
 const Container = styled.div`
-  position: relative;
-  max-width: 100vw;
-  overflow: hidden;
+  width: 100vw;
   min-height: 100vh;
-  background-color: #191d1d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+`;
+const DataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
 `;
 
 function App() {
+  //let [albumData, setalbumData] = useState(null);
+  let [loading, setLoader] = useState(true);
+
+  const fetchData = async () => {
+    let allAlbumData = await GetAllPost();
+    // console.log("Helllo Data", allAlbumData);
+    // setalbumData(allAlbumData);
+    setLoader(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Container>
-      <Header />
-      <Routes>
-        <Route path="/" Component={Home} />
-        <Route path="/movie/:imdbId" Component={MovieDetail} />
-        <Route path="*" Component={PageNotFound} />
-      </Routes>
-      <Footer />
+      {/* <Header /> */}
+      {loading && <Loader />}
+      <DataContainer>{/* <Footer /> */}</DataContainer>
     </Container>
   );
 }
