@@ -1,8 +1,10 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { GetAllPost } from "./api/index";
+import { saveAllDataToStore } from "./redux/dataSlice";
+import { useDispatch } from "react-redux";
 import Loader from "./components/Loader/Loader";
+import DataContainer from "./components/DataContainer/DataContainer";
 
 const Container = styled.div`
   width: 100vw;
@@ -13,22 +15,17 @@ const Container = styled.div`
   align-items: center;
   background-color: black;
 `;
-const DataContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-  width: 100%;
-`;
 
 function App() {
   //let [albumData, setalbumData] = useState(null);
   let [loading, setLoader] = useState(true);
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     let allAlbumData = await GetAllPost();
-    // console.log("Helllo Data", allAlbumData);
+    console.log("Helllo Data", allAlbumData);
     // setalbumData(allAlbumData);
+    dispatch(saveAllDataToStore(allAlbumData));
     setLoader(false);
   };
 
@@ -38,9 +35,8 @@ function App() {
 
   return (
     <Container>
-      {/* <Header /> */}
       {loading && <Loader />}
-      <DataContainer>{/* <Footer /> */}</DataContainer>
+      {!loading && <DataContainer />}
     </Container>
   );
 }
