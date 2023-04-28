@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { UpdatePost } from "../../api";
+import { CreatePost } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { saveAllDataToStore } from "../../redux/dataSlice";
 import Loader from "../Loader/Loader";
 
 const UpdateContainer = styled.div`
   background-color: white;
-  height: 100%;
-  width: 90%;
+  height: 670px;
+  width: 1200px;
   z-index: 5;
   position: absolute;
   top: "30%";
@@ -82,51 +82,39 @@ const InputDataContainer = styled.div`
   margin-top: 10px;
 `;
 
-const UpdatePageContainer = ({
-  data,
-  setUpdateDisplay,
+const AddPageContainer = ({
+  setAddDisplay,
+  albumData,
   setAlbumData,
-  allAlbumData,
+  availableId,
+  setAvailableID,
 }) => {
-  //   console.log("Data are ", data);
-  //   console.log("UpdateDisplay Function are ", setUpdateDisplay);
-  let dispatch = useDispatch();
-  // let allUpdatedDataFromRedux  = useSelector((state) => {
-  //   return state.album.albumData;
-  // });
-
-  let allUpdatedDataFromRedux = allAlbumData;
-
-  const [albumtitle, setAlbumTitle] = useState(data.title);
   const [loading, setLoader] = useState(false);
+  const [userIDInput, setUserIdInput] = useState(4);
+  const [albumtitle, setAlbumTitle] = useState("");
 
-  const updateData = async (e) => {
-    e.preventDefault();
+  const AddData = async (e) => {
     setLoader(true);
-    let dataFromClient = {
+    e.preventDefault();
+
+    let callAPiToUpdateData = await CreatePost({
+      albumId: availableId,
       title: albumtitle,
-      userId: data.userId,
-    };
-    let sendUpdateToApi = await UpdatePost(data.id, dataFromClient);
-
-    let updatedDataChunk = [];
-
-    allUpdatedDataFromRedux.forEach((element) => {
-      let tempData = {};
-      if (element.id == data.id) {
-        tempData = { ...element, title: albumtitle };
-      } else {
-        tempData = { ...element };
-      }
-      updatedDataChunk.push(tempData);
+      userId: userIDInput,
     });
 
-    console.log("Updated Data ", updatedDataChunk);
+    console.log("New Album Created", callAPiToUpdateData);
 
-    //dispatch(saveAllDataToStore(updatedDataChunk));
+    let newChunk = {
+      useId: userIDInput,
+      id: availableId,
+      title: albumtitle,
+    };
+    let newAlbumData = [...albumData, newChunk];
     setLoader(false);
-    setAlbumData(updatedDataChunk);
-    setUpdateDisplay(false);
+    setAlbumData(newAlbumData);
+    setAvailableID(availableId + 1);
+    setAddDisplay(false);
   };
 
   return (
@@ -134,18 +122,24 @@ const UpdatePageContainer = ({
       {loading && <Loader style={{ position: "relative", top: "800px" }} />}
       {!loading && (
         <>
-          <Title>Update Data</Title>
+          <Title>Add New Data</Title>
           <FormContainer>
             <Form>
               <InputDataContainer>
                 <Label>Album ID </Label>
                 <br />
-                <InputData value={data.id} disabled="true" />
+                <InputData value={availableId} disabled="true" />
               </InputDataContainer>
               <InputDataContainer>
                 <Label>User ID </Label>
                 <br />
-                <InputData value={data.userId} disabled="true" />
+                <InputData
+                  value={userIDInput}
+                  onChange={(e) => {
+                    setUserIdInput(e.target.value);
+                  }}
+                  type="number"
+                />
               </InputDataContainer>
               <InputDataContainer>
                 <Label>Title </Label>
@@ -167,16 +161,16 @@ const UpdatePageContainer = ({
               <InputDataContainer>
                 <Button
                   onClick={(e) => {
-                    updateData(e);
+                    AddData(e);
                   }}
                 >
-                  Update Data
+                  Add Data
                 </Button>
               </InputDataContainer>
               <InputDataContainer>
                 <Button
                   onClick={(e) => {
-                    setUpdateDisplay(false);
+                    setAddDisplay(false);
                   }}
                 >
                   Cancel
@@ -190,4 +184,4 @@ const UpdatePageContainer = ({
   );
 };
 
-export default UpdatePageContainer;
+export default AddPageContainer;

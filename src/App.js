@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import Loader from "./components/Loader/Loader";
 import DataContainer from "./components/DataContainer/DataContainer";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const Container = styled.div`
   width: 100vw;
@@ -50,6 +51,7 @@ function App() {
         {loading && <Loader />}
         {!loading && <DataContainer />}
       </DataSpace>
+      <Footer />
     </Container>
   );
 }

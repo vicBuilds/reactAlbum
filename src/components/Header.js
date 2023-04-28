@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 85px;
+  height: 95px;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
@@ -13,6 +13,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.h1`
+  font-size: 70px;
   color: white;
 `;
 

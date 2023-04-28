@@ -4,9 +4,11 @@ import { useSelector } from "react-redux";
 import "./DataContainer.css";
 import styled from "styled-components";
 import UpdatePageContainer from "../UpdatePageContainer.js/UpdatePageContainer";
+import AddPageContainer from "../AddPageContainer/AddPageContainer";
 
 const Container = styled.div`
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +30,9 @@ const DataContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [albumData, setAlbumData] = useState([]);
   const [updateDisplay, setUpdateDisplay] = useState(false);
+  const [addDisplay, setAddDisplay] = useState(false);
   const [updateData, setUpdateData] = useState({});
+  const [availableId, setAvailableID] = useState(101);
 
   useEffect(() => {
     setAlbumData(data);
@@ -60,6 +64,13 @@ const DataContainer = () => {
   return (
     <Container>
       <h2>Album Data</h2>
+      <Button
+        onClick={(e) => {
+          setAddDisplay(true);
+        }}
+      >
+        ADD DATA
+      </Button>
       <div className="table-container" style={{ width: "90%", margin: "18px" }}>
         <div className="table" style={{ width: "90%" }}>
           <div className="table-header">
@@ -133,6 +144,15 @@ const DataContainer = () => {
           allAlbumData={albumData}
           setUpdateDisplay={setUpdateDisplay}
           setAlbumData={setAlbumData}
+        />
+      )}
+      {addDisplay && (
+        <AddPageContainer
+          albumData={albumData}
+          setAddDisplay={setAddDisplay}
+          setAlbumData={setAlbumData}
+          availableId={availableId}
+          setAvailableID={setAvailableID}
         />
       )}
     </Container>
