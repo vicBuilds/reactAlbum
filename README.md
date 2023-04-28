@@ -9,7 +9,7 @@ The user interface is designed to be intuitive and responsive, with clean and mo
 Overall, this project demonstrates the power and flexibility of React and Redux Toolkit in building robust, scalable, and efficient web applications. It showcases the ability to integrate with APIs and perform CRUD operations, and provides a solid foundation for future development and expansion.
 
 Folder Structure:
-1. Api calling login: /src/api
+1. Api calling logic: /src/api
 2. Redux: /src/redux
 3. All Components inside: /src/components
 
