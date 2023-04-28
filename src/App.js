@@ -5,15 +5,25 @@ import { saveAllDataToStore } from "./redux/dataSlice";
 import { useDispatch } from "react-redux";
 import Loader from "./components/Loader/Loader";
 import DataContainer from "./components/DataContainer/DataContainer";
+import Header from "./components/Header";
 
 const Container = styled.div`
   width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: black;
+`;
+
+const DataSpace = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  background-color: orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 function App() {
@@ -23,7 +33,7 @@ function App() {
 
   const fetchData = async () => {
     let allAlbumData = await GetAllPost();
-    console.log("Helllo Data", allAlbumData);
+    console.log("Helllo Data", typeof allAlbumData);
     // setalbumData(allAlbumData);
     dispatch(saveAllDataToStore(allAlbumData));
     setLoader(false);
@@ -35,8 +45,11 @@ function App() {
 
   return (
     <Container>
-      {loading && <Loader />}
-      {!loading && <DataContainer />}
+      <Header />
+      <DataSpace>
+        {loading && <Loader />}
+        {!loading && <DataContainer />}
+      </DataSpace>
     </Container>
   );
 }

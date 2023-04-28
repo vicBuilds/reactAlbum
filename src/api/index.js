@@ -3,6 +3,7 @@ const ROOT_URL = "https://jsonplaceholder.typicode.com/albums";
 const GetAllPost = async () => {
   let response = await fetch(`${ROOT_URL}/`);
   response = await response.json();
+  console.log("Response is ", response);
   return response;
 };
 
@@ -22,13 +23,14 @@ const CreatePost = async ({ albumId, title, userId }) => {
   return data;
 };
 
-const UpdatePost = async (albumId, { title, userId }) => {
+const UpdatePost = async (albumId, dataFromClient) => {
+  console.log("Testing. . . .");
   let data = await fetch(`${ROOT_URL}/${albumId}`, {
     method: "PUT",
     body: JSON.stringify({
       id: albumId,
-      title: title,
-      userId: userId,
+      title: `${dataFromClient.title}`,
+      userId: `${dataFromClient.userId}`,
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
