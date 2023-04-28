@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CreatePost } from "../../api";
-import { useDispatch, useSelector } from "react-redux";
-import { saveAllDataToStore } from "../../redux/dataSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { saveAllDataToStore } from "../../redux/dataSlice";
 import Loader from "../Loader/Loader";
 
 const UpdateContainer = styled.div`
   background-color: white;
-  height: 670px;
-  width: 1200px;
-  z-index: 5;
   position: absolute;
-  top: "30%";
-  left: "30%";
+  height: 95%;
+  width: 90%;
+  z-index: 5;
   opacity: 0.9;
   display: flex;
   flex-direction: column;

@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { UpdatePost } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
-import { saveAllDataToStore } from "../../redux/dataSlice";
+// import { saveAllDataToStore } from "../../redux/dataSlice";
 import Loader from "../Loader/Loader";
 
 const UpdateContainer = styled.div`
   background-color: white;
-  height: 100%;
+  position: absolute;
+  height: 95%;
   width: 90%;
   z-index: 5;
-  position: absolute;
-  top: "30%";
-  left: "30%";
   opacity: 0.9;
   display: flex;
   flex-direction: column;
@@ -107,7 +105,9 @@ const UpdatePageContainer = ({
       title: albumtitle,
       userId: data.userId,
     };
-    let sendUpdateToApi = await UpdatePost(data.id, dataFromClient);
+    if (data.id <= 100) {
+      let sendUpdateToApi = await UpdatePost(data.id, dataFromClient);
+    }
 
     let updatedDataChunk = [];
 
